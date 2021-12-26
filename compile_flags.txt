@@ -1,0 +1,11 @@
+-g
+-W
+-Wall
+-Wextra
+-Wpedantic
+-Wconversion
+-Wshadow
+
+-Iinclude
+-Ibuild
+-Ibuild-lib/wabt/wasm2c
