@@ -19,13 +19,13 @@ An esoteric MISC instruction set without jumps/skips yet still capable due to a 
 - None of the instructions provide arguments in code, all are taken from data.
 - All instructions are 1 byte long so every line consists of 1 word (plus 1 newline byte).
 
-|Init ID |OP Code |Init Encoding  |Function                                                |
-|:------:|:------:|:-------------:|--------------------------------------------------------|
-|   00   | `INVB` |       a       |`cell_set(0, ~cell_get_u(0))`                           |
-|   01   | `ANDB` |       b       |`cell_set(0, cell_get_u(0) & cell_get_u(1))`            |
-|   02   | `ADDB` |       c       |`cell_set(0, cell_get_s(0) + cell_get_s(1))`            |
-|   04   | `GETC` |       1       |`cell_set(0, getc(stdin))`                              |
-|   03   | `PUTC` |       9       |`putc(cell_get_u(0), stdout)`                           |
-|   05   | `FRNT` |       3       |`dp = dp - 1`                                           |
-|   06   | `BACK` |       5       |`dp = dp + 1`                                           |
-|   07   | `CPUC` |       7       |`dr = cell_get_u(0) % 2; ln = floor((cell_get_u(0) % 8) / 2)`|
+|OP Code |Encoding   |Function                                                     |
+|:------:|:---------:|-------------------------------------------------------------|
+| `INVB` |     a     |`cell_set(0, ~cell_get_u(0))`                                |
+| `ANDB` |     b     |`cell_set(0, cell_get_u(0) & cell_get_u(1))`                 |
+| `ADDB` |     c     |`cell_set(0, cell_get_s(0) + cell_get_s(1))`                 |
+| `GETC` |     1     |`cell_set(0, getc(stdin))`                                   |
+| `PUTC` |     9     |`putc(cell_get_u(0), stdout)`                                |
+| `FRNT` |     3     |`dp = dp - 1`                                                |
+| `BACK` |     5     |`dp = dp + 1`                                                |
+| `CPUC` |     7     |`dr = cell_get_u(0) % 2; ln = floor((cell_get_u(0) % 8) / 2)`|
