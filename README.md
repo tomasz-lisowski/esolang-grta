@@ -29,3 +29,12 @@ An esoteric MISC instruction set without jumps/skips yet still capable due to a 
 | `FRNT` |     3     |`dp = dp - 1`                                                |
 | `BACK` |     5     |`dp = dp + 1`                                                |
 | `CPUC` |     7     |`dr = cell_get_u(0) % 2; ln = floor((cell_get_u(0) % 8) / 2)`|
+
+## How to Build and Run
+1. Run `make all-lib` to build the `wabt` library.
+2. Run `make all` (or `make`) to build the interpreter.
+3. Run the interpreter `./build/grta.elf ./example/hello-world.grta` (or `.\build\grta.exe .\example\hello-world.grta` on Windows).
+- Works on Windows and Linux. The only requirement is that `gcc` is present.
+- To remove compiler output generated when building the interpreter, run `make clean`.
+- To remove output from built libraries, run `make clean-lib`.
+- Note that running `make clean` will not remove files generated from building libraries so running `make all-lib` is not always necessary (in practice `make all-lib` will only be needed once, before the first build).
