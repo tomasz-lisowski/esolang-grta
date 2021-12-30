@@ -31,7 +31,7 @@ all-lib-multi: wabt
 
 # Binary target.
 main: $(DIR_BUILD) $(DIR_BUILD)/$(MAIN_NAME).$(BIN_EXT)
-$(DIR_BUILD)/$(MAIN_NAME).$(BIN_EXT): $(MAIN_OBJ) $(DIR_BUILD_LIB)/wabt/libwabt.a
+$(DIR_BUILD)/$(MAIN_NAME).$(BIN_EXT): $(MAIN_OBJ)
 	$(CC) $(^) $(DIR_BUILD_LIB)/wabt/wasm2c/wasm-rt-impl.c -o $(@) $(CC_FLAGS) $(MAIN_CC_FLAGS) $(LD_FLAGS) $(MAIN_LD_FLAGS)
 
 # Compiling source files to object files.

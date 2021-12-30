@@ -6,8 +6,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* Provide definitions for functions imported in WASM. */
-void (*Z_hostZ_putcZ_vi)(u32) = host_putc;
+/* Provide definitions for functions/memory imported in WASM. */
+void (*Z_hostZ_putcZ_vi)(uint32_t) = host_putc;
+uint32_t (*Z_hostZ_getcZ_iv)(void) = host_getc;
 wasm_rt_memory_t(*Z_hostZ_code) = &host_mem;
 
 int main(int argc, char **argv)

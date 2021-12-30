@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "configurations": [
+        {
+            "type": "cppdbg",
+            "request": "launch",
+            "name": "Launch Program",
+            "preLaunchTask": "build",
+            "cwd": "${workspaceRoot}",
+            "linux": {
+                "program": "${workspaceRoot}/build/grta.elf",
+                "args": ["example/hello-world.grta"],
+            },
+            "windows": {
+                "program": "${workspaceRoot}/build/grta.exe",
+                "args": ["example\\hello-world.grta"],
+            }
+        }
+    ]
+}

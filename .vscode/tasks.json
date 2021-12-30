@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "build",
+            "linux": {
+                "command": "make",
+                "options": {
+                    "shell": {
+                        "executable": "bash",
+                        "args": ["-c"]
+                    }
+                }
+            },
+            "windows": {
+                "command": "mingw32-make",
+                "options": {
+                    "shell": {
+                        "executable": "cmd.exe",
+                        "args": ["/C"]
+                    }
+                }
+            },
+        }
+    ]
+}
