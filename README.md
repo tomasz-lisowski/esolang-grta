@@ -4,8 +4,9 @@ An esoteric MISC instruction set without jumps/skips yet still capable due to a 
 ## Architecture
 - Memory is shared between data and code.
 - Address map:
-  - Code starts at 0x00000000 and grows into higher addresses upto and excluding 0x00003fff.
-  - Data starts at 0xffffffff and grows into lower addresses upto and including 0x00003fff.
+  - Code starts at 0x00000000 and grows into higher addresses.
+  - Data starts at 0x0000ffff and grows into lower addresses.
+  - Memory size is 0x10000.
 - CPU internal state:
   - `dp` data pointer
   - `ip` instruction pointer
