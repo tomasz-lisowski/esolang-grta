@@ -2,8 +2,8 @@ include lib/make-pal/pal.mak
 DIR_BUILD:=build
 DIR_BUILD_LIB:=build-lib
 DIR_LIB:=lib
-DIR_SOURCE:=source
-DIR_INCLUDE:=source
+DIR_SOURCE:=src
+DIR_INCLUDE:=include
 CC:=gcc
 CXX:=g++
 CC_FLAGS:=-g -W -Wall -Wextra -Wpedantic -Wconversion -Wshadow
@@ -15,7 +15,7 @@ MAIN_SRC_C:=$(wildcard $(DIR_SOURCE)/*.c)
 MAIN_SRC:= $(MAIN_SRC_WAT) $(MAIN_SRC_C)
 MAIN_OBJ:=$(MAIN_SRC_WAT:$(DIR_SOURCE)/%.wat=$(DIR_BUILD)/%.o) $(MAIN_SRC_C:$(DIR_SOURCE)/%.c=$(DIR_BUILD)/%.o)
 MAIN_DEP:=$(MAIN_OBJ:%.o=%.d)
-MAIN_CC_FLAGS:=-Iinclude -Ibuild -I$(DIR_BUILD_LIB)/wabt/wasm2c
+MAIN_CC_FLAGS:=-I$(DIR_INCLUDE) -Ibuild -I$(DIR_BUILD_LIB)/wabt/wasm2c
 MAIN_LD_FLAGS:=
 
 .PHONY: all all-lib main clean clean-lib
