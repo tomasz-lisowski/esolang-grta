@@ -6,8 +6,6 @@ DIR_SOURCE:=src
 DIR_INCLUDE:=include
 CC:=gcc
 CXX:=g++
-CC_FLAGS:=-g -W -Wall -Wextra -Wpedantic -Wconversion -Wshadow
-LD_FLAGS:=
 
 MAIN_NAME:=grta
 MAIN_SRC_WAT:=$(wildcard $(DIR_SOURCE)/*.wat)
@@ -15,7 +13,7 @@ MAIN_SRC_C:=$(wildcard $(DIR_SOURCE)/*.c)
 MAIN_SRC:= $(MAIN_SRC_WAT) $(MAIN_SRC_C)
 MAIN_OBJ:=$(MAIN_SRC_WAT:$(DIR_SOURCE)/%.wat=$(DIR_BUILD)/%.o) $(MAIN_SRC_C:$(DIR_SOURCE)/%.c=$(DIR_BUILD)/%.o)
 MAIN_DEP:=$(MAIN_OBJ:%.o=%.d)
-MAIN_CC_FLAGS:=-I$(DIR_INCLUDE) -Ibuild -I$(DIR_BUILD_LIB)/wabt/wasm2c
+MAIN_CC_FLAGS:=-g -W -Wall -Wextra -Wpedantic -Wconversion -Wshadow -I$(DIR_INCLUDE) -Ibuild -I$(DIR_BUILD_LIB)/wabt/wasm2c
 MAIN_LD_FLAGS:=
 
 .PHONY: all all-lib main clean clean-lib
@@ -29,22 +27,21 @@ all-lib:
 # This should only be done once at the start or at every submodule update.
 all-lib-multi: wabt
 
-# Binary target.
-main: $(DIR_BUILD) $(DIR_BUILD)/$(MAIN_NAME).$(BIN_EXT)
-$(DIR_BUILD)/$(MAIN_NAME).$(BIN_EXT): $(MAIN_OBJ)
-	$(CC) $(^) $(DIR_BUILD_LIB)/wabt/wasm2c/wasm-rt-impl.c -o $(@) $(CC_FLAGS) $(MAIN_CC_FLAGS) $(LD_FLAGS) $(MAIN_LD_FLAGS)
+main: $(DIR_BUILD) $(DIR_BUILD)/$(MAIN_NAME).$(EXT_BIN)
+$(DIR_BUILD)/$(MAIN_NAME).$(EXT_BIN): $(MAIN_OBJ)
+	$(CC) $(^) $(DIR_BUILD_LIB)/wabt/wasm2c/wasm-rt-impl.c -o $(@) $(MAIN_CC_FLAGS) $(MAIN_LD_FLAGS)
 
-# Compiling source files to object files.
+# Compile source files to object files.
 $(DIR_BUILD)/%.wasm: $(DIR_SOURCE)/%.wat
-	$(DIR_BUILD_LIB)/wabt/wat2wasm.$(BIN_EXT) $(<) -o $(@)
+	$(DIR_BUILD_LIB)/wabt/wat2wasm.$(EXT_BIN) $(<) -o $(@)
 $(DIR_BUILD)/%.c: $(DIR_BUILD)/%.wasm
-	$(DIR_BUILD_LIB)/wabt/wasm2c.$(BIN_EXT) $(<) -o $(@)
+	$(DIR_BUILD_LIB)/wabt/wasm2c.$(EXT_BIN) $(<) -o $(@)
 $(DIR_BUILD)/%.o: $(DIR_BUILD)/%.c
-	$(CC) $(<) -o $(@) $(CC_FLAGS) $(MAIN_CC_FLAGS) -c -MMD
+	$(CC) $(<) -o $(@) $(MAIN_CC_FLAGS) -c -MMD
 $(DIR_BUILD)/%.o: $(DIR_SOURCE)/%.c
-	$(CC) $(<) -o $(@) $(CC_FLAGS) $(MAIN_CC_FLAGS) -c -MMD
+	$(CC) $(<) -o $(@) $(MAIN_CC_FLAGS) -c -MMD
 
-# To make sure to recompile source files after a header they include changes.
+# Make sure to recompile source files after a header they include changes.
 -include $(MAIN_DEP)
 
 # Build wabt.
@@ -57,11 +54,11 @@ wabt: $(DIR_BUILD_LIB)
 	$(call pal_mkdir,$(DIR_BUILD_LIB)/wabt/wasm2c)
 	$(call pal_cp,$(DIR_LIB)/wabt/build/libwabt.a,$(DIR_BUILD_LIB)/wabt)
 ifeq ($(OS),Windows_NT)
-	$(call pal_cp,$(DIR_LIB)/wabt/build/wasm2c.exe,$(DIR_BUILD_LIB)/wabt/wasm2c.$(BIN_EXT))
-	$(call pal_cp,$(DIR_LIB)/wabt/build/wat2wasm.exe,$(DIR_BUILD_LIB)/wabt/wat2wasm.$(BIN_EXT))
+	$(call pal_cp,$(DIR_LIB)/wabt/build/wasm2c.exe,$(DIR_BUILD_LIB)/wabt/wasm2c.$(EXT_BIN))
+	$(call pal_cp,$(DIR_LIB)/wabt/build/wat2wasm.exe,$(DIR_BUILD_LIB)/wabt/wat2wasm.$(EXT_BIN))
 else
-	$(call pal_cp,$(DIR_LIB)/wabt/build/wasm2c,$(DIR_BUILD_LIB)/wabt/wasm2c.$(BIN_EXT))
-	$(call pal_cp,$(DIR_LIB)/wabt/build/wat2wasm,$(DIR_BUILD_LIB)/wabt/wat2wasm.$(BIN_EXT))
+	$(call pal_cp,$(DIR_LIB)/wabt/build/wasm2c,$(DIR_BUILD_LIB)/wabt/wasm2c.$(EXT_BIN))
+	$(call pal_cp,$(DIR_LIB)/wabt/build/wat2wasm,$(DIR_BUILD_LIB)/wabt/wat2wasm.$(EXT_BIN))
 endif
 	$(call pal_cpdir,$(DIR_LIB)/wabt/wasm2c,$(DIR_BUILD_LIB)/wabt/wasm2c)
 
@@ -72,5 +69,4 @@ clean:
 clean-lib:
 	$(call pal_rmdir,$(DIR_LIB)/wabt/build)
 	$(call pal_rmdir,$(DIR_LIB)/wabt/bin)
-	$(call pal_rmdir,$(DIR_LIB)/wabt/.cache)
 	$(call pal_rmdir,$(DIR_BUILD_LIB))
