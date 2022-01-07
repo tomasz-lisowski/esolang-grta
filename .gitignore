@@ -1,3 +1,6 @@
 # Compiler output
 build/
 build-lib/
+
+# Clangd compile flags
+compile_flags.txt
